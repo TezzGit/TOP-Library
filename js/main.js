@@ -120,3 +120,14 @@ removeBookBtn.addEventListener("click", () => {
     myTable.rowSelected = NaN;
     updateTable();
 })
+
+const changeReadStatusBtn = document.getElementById('readBookBtn');
+
+changeReadStatusBtn.addEventListener('click', ()=> {
+    if (!myTable.rowSelected) {
+        return;
+    }
+    myLibrary[myTable.rowSelected -1].bookRead();
+    myTable.rowSelected = NaN;
+    updateTable();
+})
