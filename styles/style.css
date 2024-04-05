@@ -41,13 +41,8 @@ caption {
 body {
     display: grid;
     gap: 10px;
-    grid-template-columns: 1fr 10%;
-    grid-template-rows: 1fr 10%;
-}
-
-.controls {
-    grid-column: 2/3;
-    justify-self: end;
+    grid-template-columns: 1fr 25%;
+    grid-template-rows: 1fr 25%;
 }
 
 .signupFrm {
@@ -146,8 +141,16 @@ body {
     display: none;
 }
 
-#addBookBtn {
-    padding: 15px 30px;
+.controls {
+    display: flex;
+    grid-column: 2/3;
+    grid-template-columns: fr fr fr;
+    justify-content: end;
+    gap: 5px;
+    height: 30px;
+}
+
+.controls button {
     border: none;
     background-color: purple;
     color: white;
@@ -156,7 +159,15 @@ body {
     font-size: 16px;
 }
 
-#addBookBtn:hover {
+.controls button:hover {
     background-color: #9867C5;
     transform: translateY(-2px);
+}
+
+tr:nth-child(even):hover td {
+    background-color: lightblue;
+}
+
+tr:nth-child(odd):hover td {
+    background-color: lightblue;
 }
