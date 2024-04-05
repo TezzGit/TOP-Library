@@ -18,12 +18,19 @@ function Book(title, author, pages, read) {
     }
 
     this.bookRead = function () {
-        this.read = this.read ? !this.read : this.read;
+        this.read = !this.read;
     }
 }
 
 function addBookToLibrary(newBook) {
     myLibrary.push(newBook);
+}
+
+const clearSelected = () => {
+    const tableRows = document.querySelectorAll("tr");
+    tableRows.forEach((element) => {
+        element.classList.remove("selected");
+    })
 }
 
 const updateTable = () => {
@@ -49,6 +56,8 @@ const updateTable = () => {
     for (let i = 1; i < tableRows.length; i++) {
         tableRows[i].addEventListener("click", () => {
             myTable.rowSelected = i;
+            clearSelected();
+            tableRows[i].classList.add('selected');
         })
     }
 }
