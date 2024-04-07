@@ -1,30 +1,50 @@
-const myLibrary = [];
-
 const myTable = {
     rowSelected: NaN
 };
 
-function Book(title, author, pages, read) {
-    this.title = title;
-    this.author = author;
-    this.pages = pages;
-    this.read = read;
+class Book {
+    constructor(title, author, pages, read) {
+        this.title = title;
+        this.author = author;
+        this.pages = pages;
+        this.read = read;
+    }
 
-    this.info = function () {
+    info = function () {
         if (this.read) {
             return `${this.title} by ${this.author}, ${this.pages} pages, already read.`
         }
         return `${this.title} by ${this.author}, ${this.pages} pages, not read yet.`
     }
 
-    this.bookRead = function () {
+    bookRead = function () {
         this.read = !this.read;
     }
 }
 
-function addBookToLibrary(newBook) {
-    myLibrary.push(newBook);
+class Library {
+    constructor() {
+        this.myLibrary = [];
+    }
+
+    addBookToLibrary(newBook) {
+        this.myLibrary.push(newBook);
+    }
+
+    removeBook(id) {
+        this.myLibrary.splice(id, 1);
+    }
+
+    get Books() {
+        return this.myLibrary;
+    }
+
+    getBook(id) {
+        return this.myLibrary[id];
+    }
 }
+
+
 
 const clearSelected = () => {
     const tableRows = document.querySelectorAll("tr");
@@ -42,7 +62,7 @@ const updateTable = () => {
             <th>Pages</th>
             <th>Already Read</th>
         </tr>`
-    myLibrary.forEach((element) => {
+    myLibrary.Books.forEach((element) => {
         table.innerHTML += `
                         <tr>
                             <td>${element.title}</td>
@@ -70,9 +90,11 @@ const hobbitBook = new Book("The Hobbit", "J.R.R Tolkein", "256", false);
 const lotrBook = new Book("The Lord of The Rings", "J.R.R Tolkein", "350", true);
 const eragonBook = new Book("Eragon", "Christopher Paolini", "487", true);
 
-addBookToLibrary(hobbitBook);
-addBookToLibrary(lotrBook);
-addBookToLibrary(eragonBook);
+const myLibrary = new Library();
+
+myLibrary.addBookToLibrary(hobbitBook);
+myLibrary.addBookToLibrary(lotrBook);
+myLibrary.addBookToLibrary(eragonBook);
 
 const addBookBtn = document.getElementById('addBookBtn');
 const submitBtn = document.getElementsByClassName('submitBtn')[0];
@@ -106,7 +128,7 @@ submitBtn.addEventListener('click', () => {
     if (!validateForm(inputs)) {
         alert("Please fill in the form or press cancel")
     } else {
-        addBookToLibrary(new Book(inputs[0].value, inputs[1].value, inputs[2].value, inputs[3].checked));
+        myLibrary.addBookToLibrary(new Book(inputs[0].value, inputs[1].value, inputs[2].value, inputs[3].checked));
         updateTable();
         resetForm(inputs);
         hideForm();
@@ -125,18 +147,18 @@ removeBookBtn.addEventListener("click", () => {
     if (!myTable.rowSelected) {
         return;
     }
-    myLibrary.splice(myTable.rowSelected - 1, 1);
+    myLibrary.removeBook(myTable.rowSelected - 1);
     myTable.rowSelected = NaN;
     updateTable();
 })
 
 const changeReadStatusBtn = document.getElementById('readBookBtn');
 
-changeReadStatusBtn.addEventListener('click', ()=> {
+changeReadStatusBtn.addEventListener('click', () => {
     if (!myTable.rowSelected) {
         return;
     }
-    myLibrary[myTable.rowSelected -1].bookRead();
+    myLibrary.getBook([myTable.rowSelected - 1]).bookRead();
     myTable.rowSelected = NaN;
     updateTable();
 })
